@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>자기소개 페이지 - 배정민</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+
+    <body>
+    <!-- 헤더 -->
+    <header class="header">
+        <div class="header-left">
+        <img
+            src="./images/profile.png"
+            alt="프로필 이미지"
+            class="profile"
+        />
+        </div>
+
+        <div class="header-center">
+            <h1 class="name">배정민</h1>
+            <p class="subtitle">🍐</p>
+        </div>
+
+        <div class="header-right">
+            <a
+            href="https://github.com/qowjdals23"
+            target="_blank"
+            rel="noopener noreferrer"
+            >
+            <img
+                src="./images/github.png"
+                alt="GitHub"
+                class="icon"
+            />
+        </a>
+
+        <a
+            href="https://github.com/qowjdals23"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <img
+            src="./images/velog.jpg"
+            alt="Velog"
+            class="icon"
+            />
+        </a>
+
+        <a
+            href="https://github.com/qowjdals23"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <img
+            src="./images/instagram.jpg"
+            alt="instagram"
+            class="icon"
+            />
+        </a>
+        </div>
+    </header>
+
+
+    <div class="sidebar-layout">
+        <!-- 사이드 네비게이션 -->
+        <aside class="sidebar">
+        <nav class="side-nav">
+            <a href="#hero" class="side-item">소개</a>
+            <a href="#skills" class="side-item">나의 스킬 및 관심사</a>
+            <a href="#cards" class="side-item">제주 맛집 추천</a>
+            <a href="#gallery" class="side-item">사진첩</a>
+            <a href="#footer" class="side-item">한마디</a>
+        </nav>
+        </aside>
+
+        <main class="content">
+        <!-- 히어로(소개) -->
+        <section class="hero" id="hero">
+            <div class="hero-inner">
+            <img
+
+                src="./images/hero-profile.jpg"
+                alt="프로필 사진"
+                class="hero-profile"
+            />
+
+            <div class="hero-content">
+                <h2 class="hero-title">
+                안녕하세요 <br />
+                37기 다이브 솝트 웹 YB 배정민입니다!
+                </h2>
+                <p class="hero-sub">
+                함께 많이많이 성장해요 🙌 앞으로 잘 부탁드립니다!!!!
+                </p>
+
+                <div class="hero-button">
+                <button class="btn btn-like">좋아요</button>
+                <button class="btn btn-dislike">싫어요</button>
+                </div>
+            </div>
+            </div>
+        </section>
+
+
+        <!-- 스킬 -->
+        <section class="skills" id="skills">
+        <div class="skills-inner">
+            <h2 class="skills-title">나의 스킬과 관심사</h2>
+            <div class="skills-tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">리액트</span>
+            <span class="tag">자바스크립트</span>
+            <span class="tag">타입스크립트</span>
+            <span class="tag">Next.js</span>
+            <span class="tag">잘하고싶어요</span>
+            <span class="tag">왕초보</span>
+            <span class="tag">입문자</span>
+            <span class="tag">커피 마셔도 잘자요</span>
+            <span class="tag">여행 좋아해요</span>
+            <span class="tag">먹는 거 좋아해요</span>
+            <span class="tag">집이 너무 좋아요</span>
+            <span class="tag">강아지가 없어요..</span>
+            <span class="tag">고양이도 없어요..</span>
+            </div>
+        </div>
+        </section>
+
+        <!-- 카드 -->
+        <section class="cards" id="cards">
+        <div class="cards-inner">
+            <h2 class="cards-title">💚제주 맛집 추천</h2>
+
+            <div class="card-list">
+            
+            <article class="card">
+                <div class="card-thumb">
+                <img src="./images/card-1.jpg" alt="곰막" />
+                <button class="card-like" aria-label="좋아요">❤</button>
+                </div>
+                <div class="card-body">
+                <h3 class="card-title">곰막</h3>
+                <p class="card-desc">고등어회&성게국수</p>
+                </div>
+            </article>
+    
+            <article class="card">
+                <div class="card-thumb">
+                <img src="./images/card-2.jpg" alt="우럭" />
+                <button class="card-like" aria-label="좋아요">❤</button>
+                </div>
+                <div class="card-body">
+                <h3 class="card-title">고집돌우럭</h3>
+                <p class="card-desc">우럭조림</p>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="card-thumb">
+                <img src="./images/card-3.jpg" alt="치즈케이크" />
+                <button class="card-like" aria-label="좋아요">❤</button>
+                </div>
+                <div class="card-body">
+                <h3 class="card-title">멜팅마운틴</h3>
+                <p class="card-desc">트러플!!!치즈케이크</p>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="card-thumb">
+                <img src="./images/card-4.jpg" alt="국수" />
+                <button class="card-like" aria-label="좋아요">❤</button>
+                </div>
+                <div class="card-body">
+                <h3 class="card-title">자매국수</h3>
+                <p class="card-desc">고기국수..</p>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="card-thumb">
+                <img src="./images/card-5.jpg" alt="모찌" />
+                <button class="card-like" aria-label="좋아요">❤</button>
+                </div>
+                <div class="card-body">
+                <h3 class="card-title">동문시장</h3>
+                <p class="card-desc">감귤모찌</p>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="card-thumb">
+                <img src="./images/card-6.jpg" alt="가지" />
+                <button class="card-like" aria-label="좋아요">❤</button>
+                </div>
+                <div class="card-body">
+                <h3 class="card-title">머그라이</h3>
+                <p class="card-desc">가지튀김..바삭바삭..</p>
+                </div>
+            </article>
+            </div>
+        </div>
+        </section>
+
+        <section class="gallery" id="gallery">
+        <div class="gallery-inner">
+            <h2 class="gallery-title">친구네 강아지 🩶푸딩이🩶</h2>
+
+            <!-- 트랙 가리는 뷰포트 -->
+            <div class="gallery-viewport">
+            <div class="gallery-track">
+                
+                <article class="gitem"><div class="gthumb"><img src="./images/gallery-1.jpg" alt="사진 1"></div></article>
+                <article class="gitem"><div class="gthumb"><img src="./images/gallery-2.jpg" alt="사진 2"></div></article>
+                <article class="gitem"><div class="gthumb"><img src="./images/gallery-3.jpg" alt="사진 3"></div></article>
+                <article class="gitem"><div class="gthumb"><img src="./images/gallery-4.jpg" alt="사진 4"></div></article>
+                <article class="gitem"><div class="gthumb"><img src="./images/gallery-5.jpg" alt="사진 5"></div></article>
+                <article class="gitem"><div class="gthumb"><img src="./images/gallery-6.jpg" alt="사진 6"></div></article>
+                <article class="gitem"><div class="gthumb"><img src="./images/gallery-7.jpg" alt="사진 7"></div></article>
+
+                <article class="gitem"><div class="gthumb"><img src="./images/gallery-1.jpg" alt="사진 1"></div></article>
+                <article class="gitem"><div class="gthumb"><img src="./images/gallery-2.jpg" alt="사진 2"></div></article>
+                <article class="gitem"><div class="gthumb"><img src="./images/gallery-3.jpg" alt="사진 3"></div></article>
+                <article class="gitem"><div class="gthumb"><img src="./images/gallery-4.jpg" alt="사진 4"></div></article>
+                <article class="gitem"><div class="gthumb"><img src="./images/gallery-5.jpg" alt="사진 5"></div></article>
+                <article class="gitem"><div class="gthumb"><img src="./images/gallery-6.jpg" alt="사진 6"></div></article>
+                <article class="gitem"><div class="gthumb"><img src="./images/gallery-7.jpg" alt="사진 7"></div></article>
+            </div>
+            </div>
+        </div>
+        </section>
+
+        <!-- 푸터 -->
+        <section class="footer" id="footer">
+        <div class="footer-inner">
+            <p class="footer-text">읽어주셔서 감사합니다 🙌</p>
+        </div>
+        </section>
+
+
+
+
+      </main>
+    </div>
+  </body>
+</html>
