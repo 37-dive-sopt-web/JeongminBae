@@ -2,8 +2,6 @@
 body {
   margin: 0;
   font-family: sans-serif;
-  padding-top: 64px;
-
 }
 
 html {
@@ -18,28 +16,25 @@ html {
   left: 0;
   right: 0;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0.8rem 2rem;
+  padding: 0.1rem 2rem;
   background-color: #fff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
 
-
-.header-left { 
+.header-left,
+.header-center,
+.header-right {
   flex: 1;
-  display:flex; 
-  justify-content:center; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .header-center { 
-  flex: 1;
   text-align:center; 
 }
 .header-right  { 
-  flex: 1;
-  display:flex; 
-  justify-content:center; 
   gap:10px; 
 }
 
@@ -71,8 +66,8 @@ html {
 /* 히어로(소개) */
 .hero {
   position: relative;
-  margin-top: calc(64px * -0.5);
-  padding: 2rem 3rem;
+  margin-top: 0;
+  padding: 2rem 1rem;
   display: flex;
   justify-content: center;
   scroll-margin-top: 80px;
@@ -84,10 +79,10 @@ html {
   justify-content: space-around;
   gap: 40px;
   width: 100%;
-  max-width: none;
+  max-width: 1280px;
   background-color: #f8f8d0;
   border-radius: 24px;
-  padding: 2rem 3rem;
+  padding: 3rem;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
@@ -148,6 +143,16 @@ button {
   transform: scale(1.05);
 }
 
+.skills-inner,
+.cards-inner,
+.gallery-inner {
+  width: 100%;
+  max-width: 1200px; 
+  margin: 0 auto; 
+  border-radius: 16px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  padding: 2rem;
+}
 
 
 /* 스킬 */
@@ -159,12 +164,7 @@ button {
 }
 
 .skills-inner {
-  width: 100%;
-  max-width: none;
   background: #faf9f9;
-  border-radius: 16px;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
-  padding: 2rem;
 }
 
 .skills-title {
@@ -184,7 +184,7 @@ button {
   display: inline-block;
   padding: 8px 14px;
   background-color: #ffe7d2;
-  border-radius: 999px;
+  border-radius: 50px;
   font-size: 1.2rem;
   font-weight: 500;
   color: #333;
@@ -204,12 +204,7 @@ button {
 }
 
 .cards-inner {
-  width: 100%;
-  max-width: none;
   background: #f7f6fb;
-  border-radius: 16px;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
-  padding: 2rem;
 }
 
 .cards-title {
@@ -310,12 +305,7 @@ button {
   scroll-margin-top: 50px;
 }
 .gallery-inner {
-  width:100%;
-  max-width: none;
   background: #f7f6fb;
-  border-radius: 16px;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
-  padding: 2rem;
 }
 
 
@@ -332,8 +322,6 @@ button {
   display: flex;
   gap: 12px;
   padding-bottom: 8px;
-  
-  /* scroll-snap-type: x mandatory; */
 }
 
 .gallery-track .gitem {
@@ -357,6 +345,7 @@ button {
 
 .gitem {
   flex: 0 0 260px;
+  height: 180px;
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
@@ -370,24 +359,21 @@ button {
   box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
 
-.gthumb {
-  height: 200px;
-  overflow: hidden;
-}
-.gthumb img {
+.gitem img {
   width: 100%;
   height: 100%;
   object-fit: cover;            /* 찌그러짐 방지 */
   transition: transform 0.2s;
+  display: block;
 }
-.gitem:hover .gthumb img { transform: scale(1.05); }
+.gitem:hover img { transform: scale(1.05); }
 
 /* 네비게이션 */
 .sidebar-layout {
   display: flex;
   gap: 24px;
   width: 80%;
-  max-width: none;
+  max-width: 1280px;
   margin: 0 auto;
   padding-inline: 10px;
 }
@@ -445,7 +431,7 @@ button {
 }
 .footer-inner {
   width: 100%;
-  max-width: none;
+  max-width: 1280px;
   background: #f8f8d0;
   border-radius: 12px;
   box-shadow: 0 1px 6px rgba(0,0,0,0.06);
