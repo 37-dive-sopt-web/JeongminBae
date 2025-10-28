@@ -1,0 +1,21 @@
+@import "reset.css";
+
+.header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    background-color: #84e1cc;
+    padding: 2rem 0rem;
+}
+
+.header-left {
+    text-align: center;
+}
+.header-center {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+.header-right {
+    text-align: center;
+}
