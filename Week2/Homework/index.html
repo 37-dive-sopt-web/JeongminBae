@@ -69,7 +69,39 @@
             </div>    
             </form>
         </section>
+
+        <!-- 표 -->
+        <section class="table">
+            <div class="table-header">
+                <h2 class="table-title">37기 웹 파트 목록</h2>
+                <div class="table-buttons">
+                    <button type="button" id="deleteSelectedBtn">선택 삭제</button>
+                    <button type="button" id="addBtn">추가</button>
+                </div>
+            </div>
+
+            <table class="member-table">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" id="selectAll"/>
+                        </th>
+                        <th scope="col">이름</th>
+                        <th scope="col">영문 이름</th>
+                        <th scope="col">깃허브</th>
+                        <th scope="col">성별</th>
+                        <th scope="col">역할</th>
+                        <th scope="col">금잔디조</th>
+                        <th scope="col">나이</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </section>
+
     </main>
+
+    <script type="module" src="./js/index.js"></script>
     
 </body>
 </html>

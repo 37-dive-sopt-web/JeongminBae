@@ -36,7 +36,7 @@ body {
 /* 필터 */
 .filter {
     width: 100%;
-    max-width: 960px;
+    max-width: 1080px;
     margin: 1rem auto;
     padding: 1rem 2rem;
     background: #fff;
@@ -107,4 +107,75 @@ body {
 }
 .filter-buttons button:hover {
     background-color: #41d0af;
+}
+.filter-buttons button:active { 
+    transform: translateY(1px); 
+}
+
+/* 표 */
+.table {
+    width: 100%;
+    max-width: 1080px;
+    margin: 1rem auto;
+    padding: 1rem 2rem;
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.05);
+}
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.2rem 0rem;
+}
+.table-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+}
+
+.table-buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.8rem;
+    margin-top: 0.8rem;
+
+}
+.table-buttons button {
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background-color: #88e2cd;
+    border: none;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.table-buttons button:hover {
+    background-color: #41d0af;
+}
+.table-buttons button:active { 
+    transform: translateY(1px); 
+}
+
+.member-table {
+    width: 100%;
+    margin-top: 1.8rem;
+    table-layout: auto;
+}
+.member-table thead th {
+    padding: 0.8rem;
+    background-color: #cef4eb;
+    border-radius: 0.2rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: left;
+    border-bottom: 1px solid #d2d6d5;
+}
+.member-table tbody td {
+    padding: 0.8rem;
+    border-radius: 0.2rem;
+    font-size: 0.9rem;
+    font-weight: 400;
+    text-align: left;
+    border-bottom: 1px solid #eeeeee;
 }
