@@ -25,7 +25,7 @@ export function renderMembers(members) {
             <td>${githubCell}</td>
             <td>${genderToKorean(m.gender)}</td>
             <td>${m.role ?? ""}</td>
-            <td>${m.codeReviewGroup ?? ""}</td>
+            <td>${m.group ?? ""}</td>
             <td>${m.age ?? ""}</td>
           </tr>
         `;
