@@ -1,6 +1,7 @@
 import { renderMembers } from "./render.js";
 import { initializeStorage, getStoredMembers } from "./storage.js";
 import "./filter.js";
+import "./checkbox.js";
 
 // 초기 렌더링
 document.addEventListener("DOMContentLoaded", () => {

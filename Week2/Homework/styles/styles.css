@@ -181,6 +181,13 @@ body {
     border-bottom: 1px solid #eeeeee;
 }
 
+.member-table input[type="checkbox"] {
+    width: 0.9rem;
+    height: 0.9rem;
+    vertical-align: middle;
+}
+
+
 .member-table a {
     color: #41d0af;
     font-weight: 600;
