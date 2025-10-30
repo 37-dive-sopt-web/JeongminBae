@@ -11,6 +11,9 @@ export function renderMembers(members) {
         return;
     }
 
+    const list = Array.isArray(members) ? members : [];
+
+
     // rows
     const rows = members.map((m) => {
         const githubCell = m.github
@@ -25,7 +28,7 @@ export function renderMembers(members) {
             <td>${githubCell}</td>
             <td>${genderToKorean(m.gender)}</td>
             <td>${m.role ?? ""}</td>
-            <td>${m.group ?? ""}</td>
+            <td>${m.codeReviewGroup ?? ""}</td>
             <td>${m.age ?? ""}</td>
           </tr>
         `;

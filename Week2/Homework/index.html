@@ -17,16 +17,16 @@
     <!-- 메인 -->
     <main>
         <!-- 검색 필터 -->
-        <section class="filter"> <!--전체-->
+        <section class="filter"> 
             <h2 class="filter-title">검색 필터</h2>
-            <form id="filter-form"> <!--입력 + 버튼-->
+            <form id="filter-form"> =
                 <div class="filter-grid">
-                    <div class="filter-item"> <!--입력-->
+                    <div class="filter-item"> 
                         <label for="name">이름</label>
                         <input id="name" type="text" placeholder="이름을 입력하세요" />
                     </div>
 
-                    <div class="filter-item"> <!--label + input-->
+                    <div class="filter-item">
                         <label for="englishName">영문 이름</label>
                         <input id="englishName" type="text" placeholder="영문 이름을 입력하세요" />
                     </div> 
@@ -108,6 +108,67 @@
                 <tbody id="tableBody"></tbody>
             </table>
         </section>
+
+
+        <!--모달 -->
+        <div id="modalBackdrop" class="modal-backdrop" hidden>
+        <div class="modal">
+            <div class="modal-header">
+            <h3>멤버 추가</h3>
+            <button type="button" id="modalCloseBtn" aria-label="닫기">×</button>
+            </div>
+
+            <form id="addForm" class="modal-body">
+
+            <div class="modal-field">
+                <label for="add_name">이름</label>
+                <input id="add_name" type="text" placeholder="이름을 입력하세요" />
+            </div>
+
+            <div class="modal-field">
+                <label for="add_englishName">영문 이름</label>
+                <input id="add_englishName" type="text" placeholder="영문 이름을 입력하세요" />
+            </div>
+
+            <div class="modal-field">
+                <label for="add_github">깃허브</label>
+                <input id="add_github" type="text" placeholder="깃허브 아이디를 입력하세요" />
+            </div>
+
+            <div class="modal-field">
+                <label for="add_gender">성별</label>
+                <select id="add_gender">
+                <option value="">선택</option>
+                <option value="male">남성</option>
+                <option value="female">여성</option>
+                </select>
+            </div>
+
+            <div class="modal-field">
+                <label for="add_role">역할</label>
+                <select id="add_role">
+                <option value="">선택</option>
+                <option value="OB">OB</option>
+                <option value="YB">YB</option>
+                </select>
+            </div>
+
+            <div class="modal-field">
+                <label for="add_group">금잔디조</label>
+                <input id="add_group" type="number" min="1" max="9" placeholder="금잔디조를 입력하세요 (1~9)" />
+            </div>
+
+            <div class="modal-field">
+                <label for="add_age">나이</label>
+                <input id="add_age" type="number" min="1" placeholder="나이를 입력하세요" />
+            </div>
+
+            <div class="modal-actions">
+                <button type="submit" id="modalAddBtn">추가</button>
+            </div>
+            </form>
+        </div>
+        </div>
 
     </main>
 
