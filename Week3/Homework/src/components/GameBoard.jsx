@@ -1,5 +1,7 @@
 // src/components/GameBoard.jsx
+import { useState } from "react";
 import styled from "@emotion/styled";
+import { buildDeck } from "../utils/deck";
 
 const BoardShell = styled.section`
   width: 1100px;
@@ -20,7 +22,7 @@ const BoardHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 4px 0 10px;
+  margin: 12px 0 10px;
 `;
 
 const Title = styled.h2`
@@ -30,12 +32,12 @@ const Title = styled.h2`
 `;
 
 const ResetButton = styled.button`
-  padding: 4px 10px;
+  padding: 7px 10px;
   font-size: 12px;
   border-radius: 999px;
   border: 1px solid ${({ theme }) => theme.colors.border};
-  color: ${({ theme }) => theme.colors.text};
-  background: #fff;
+  color: #fff;
+  background: ${({ theme }) => theme.colors.resetButton};
   cursor: pointer;
   line-height: 1;
   &:hover { background: ${({ theme }) => theme.colors.primaryHover}; }
@@ -43,20 +45,19 @@ const ResetButton = styled.button`
 `;
 
 const BoardGrid = styled.div`
-  /* 카드 한 변 길이를 여기서 조절 */
-  --cell: 112px;
+  --cell: 112px;                         /* 카드 한 변 길이 */
   display: grid;
   grid-template-columns: repeat(4, var(--cell));
   gap: 14px;
-  justify-content: center;   /* 그리드 전체 가운데 정렬 */
+  justify-content: center;               /* 그리드 가운데 정렬 */
   padding: 8px 0 4px;
 `;
 
 const CardCell = styled.div`
   width: var(--cell);
-  aspect-ratio: 1 / 1;       /* 정사각형 유지 */
+  aspect-ratio: 1 / 1;                   /* 정사각형 유지 */
   border-radius: 12px;
-  background: #6fc1a0;
+  background: ${({ theme }) => theme.colors.card};
   color: #ffffff;
   font-weight: 800;
   font-size: 28px;
@@ -129,7 +130,8 @@ const HistoryBox = styled.div`
 `;
 
 export default function GameBoard() {
-  const placeholderCards = Array.from({ length: 16 }); // UI만 표시
+  // 레벨1 기준 4×4 덱을 한 번 생성해 숫자만 보여줌 (뒤집기/매치 로직은 다음 단계)
+  const [deck, setDeck] = useState(() => buildDeck(1));
 
   return (
     <BoardShell>
@@ -137,22 +139,24 @@ export default function GameBoard() {
       <LeftArea>
         <BoardHeader>
           <Title>게임 보드</Title>
-          <ResetButton type="button" aria-label="게임 리셋">게임 리셋</ResetButton>
+          <ResetButton type="button" aria-label="게임 리셋" onClick={() => setDeck(buildDeck(1))}>게임 리셋</ResetButton>
         </BoardHeader>
 
         <BoardGrid>
-          {placeholderCards.map((_, i) => (
-            <CardCell key={i}>?</CardCell>
+          {deck.map((card) => (
+            <CardCell key={card.id} title={card.id}>
+              {card.value}
+            </CardCell>
           ))}
         </BoardGrid>
       </LeftArea>
 
       {/* 우측: 정보 패널 */}
       <RightArea>
-        <LevelSelect aria-label="레벨 선택">
-          <option>Level 1</option>
-          <option>Level 2</option>
-          <option>Level 3</option>
+        <LevelSelect aria-label="레벨 선택" defaultValue="1" disabled>
+          <option value="1">Level 1</option>
+          <option value="2">Level 2</option>
+          <option value="3">Level 3</option>
         </LevelSelect>
 
         <StatRow>
