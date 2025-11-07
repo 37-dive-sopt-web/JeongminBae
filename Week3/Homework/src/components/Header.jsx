@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 const HeaderBox = styled.header`
 
 width: 1100px;       
-  margin: 12px auto 0;
+  margin: 12px auto 20px;
   padding: 18px 16px;
 
   background: #eaf7ef;

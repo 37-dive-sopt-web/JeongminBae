@@ -4,6 +4,9 @@ import GlobalStyle from "./styles/globalStyles";
 import { ThemeProvider } from "@emotion/react";
 import { theme } from "./styles/theme";
 
+import GameBoard from "./components/GameBoard";
+
+
 function App() {
   const [tab, setTab] = useState("game");
 
@@ -15,7 +18,7 @@ function App() {
         <Header currentTab={tab} onChangeTab={setTab} />
 
         {/* 탭별 화면 */}
-        {tab === "game" && <div>🎮 게임 화면</div>}
+        {tab === "game" && <GameBoard/>}
         {tab === "ranking" && <div>🏆 랭킹 화면</div>}
       </div>
     </ThemeProvider>
