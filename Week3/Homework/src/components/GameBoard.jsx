@@ -1,8 +1,8 @@
-// src/components/GameBoard.jsx
-import { useState } from "react";
 import styled from "@emotion/styled";
-import { buildDeck } from "../utils/deck";
+import Card from "./Card";
+import useGame from "../hooks/useGame";
 
+/* ====== Styled ====== */
 const BoardShell = styled.section`
   width: 1100px;
   margin: 0 auto;
@@ -12,7 +12,7 @@ const BoardShell = styled.section`
   box-shadow: 0 8px 20px rgba(25, 76, 46, 0.08);
   padding: 16px;
   display: grid;
-  grid-template-columns: 1fr 340px;   /* 좌: 보드 / 우: 정보 */
+  grid-template-columns: 1fr 340px;
   gap: 16px;
 `;
 
@@ -32,7 +32,7 @@ const Title = styled.h2`
 `;
 
 const ResetButton = styled.button`
-  padding: 7px 10px;
+  padding: 4px 10px;
   font-size: 12px;
   border-radius: 999px;
   border: 1px solid ${({ theme }) => theme.colors.border};
@@ -40,30 +40,17 @@ const ResetButton = styled.button`
   background: ${({ theme }) => theme.colors.resetButton};
   cursor: pointer;
   line-height: 1;
-  &:hover { background: ${({ theme }) => theme.colors.primaryHover}; }
+  &:hover { opacity: .92; }
   &:focus-visible { outline: 2px solid ${({ theme }) => theme.colors.primary}; outline-offset: 2px; }
 `;
 
 const BoardGrid = styled.div`
-  --cell: 112px;                         /* 카드 한 변 길이 */
+  --cell: 112px;
   display: grid;
   grid-template-columns: repeat(4, var(--cell));
   gap: 14px;
-  justify-content: center;               /* 그리드 가운데 정렬 */
+  justify-content: center;
   padding: 8px 0 4px;
-`;
-
-const CardCell = styled.div`
-  width: var(--cell);
-  aspect-ratio: 1 / 1;                   /* 정사각형 유지 */
-  border-radius: 12px;
-  background: ${({ theme }) => theme.colors.card};
-  color: #ffffff;
-  font-weight: 800;
-  font-size: 28px;
-  display: grid;
-  place-items: center;
-  user-select: none;
 `;
 
 const RightArea = styled.aside`
@@ -118,20 +105,46 @@ const MessageBox = styled.div`
   align-items: center;
 `;
 
-const HistoryBox = styled.div`
-  background: ${({ theme }) => theme.colors.primaryDark};
+const HistoryList = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  background: ${({ theme }) => theme.colors.primarySoft};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 8px;
   height: 220px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #6b7280;
+  overflow: auto;
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  display: grid;
+  grid-auto-rows: 34px;
+  gap: 6px;
+  font-size: 13px;
+  align-content: start;
 `;
 
+const HistoryItem = styled.li`
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: #fff;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  color: ${({ success }) => (success ? "#54b691" : "#e65f5fff")};
+  line-height: 1.2;
+`;
+
+
+
+/* ====== Component ====== */
 export default function GameBoard() {
-  // 레벨1 기준 4×4 덱을 한 번 생성해 숫자만 보여줌 (뒤집기/매치 로직은 다음 단계)
-  const [deck, setDeck] = useState(() => buildDeck(1));
+  const {
+    deck, openIds, matched, message,
+    totalPairs, matchedPairs, remainingPairs,
+    timeLabel, history: turnHistory,
+    inputLocked, reset, flip,
+  } = useGame(1);
 
   return (
     <BoardShell>
@@ -139,19 +152,30 @@ export default function GameBoard() {
       <LeftArea>
         <BoardHeader>
           <Title>게임 보드</Title>
-          <ResetButton type="button" aria-label="게임 리셋" onClick={() => setDeck(buildDeck(1))}>게임 리셋</ResetButton>
+          <ResetButton type="button" aria-label="게임 리셋" onClick={reset}>
+            게임 리셋
+          </ResetButton>
         </BoardHeader>
 
         <BoardGrid>
-          {deck.map((card) => (
-            <CardCell key={card.id} title={card.id}>
-              {card.value}
-            </CardCell>
-          ))}
+          {deck.map((card) => {
+            const isOpen = openIds.includes(card.id) || matched.has(card.id);
+            return (
+              <Card
+                key={card.id}
+                open={isOpen}
+                matched={matched.has(card.id)}
+                value={card.value}
+                onClick={() => flip(card.id)}
+                disabled={inputLocked || (openIds.length === 2 && !isOpen)}
+                title={card.id}
+              />
+            );
+          })}
         </BoardGrid>
       </LeftArea>
 
-      {/* 우측: 정보 패널 */}
+      {/* 우측 : 패널 */}
       <RightArea>
         <LevelSelect aria-label="레벨 선택" defaultValue="1" disabled>
           <option value="1">Level 1</option>
@@ -160,16 +184,27 @@ export default function GameBoard() {
         </LevelSelect>
 
         <StatRow>
-          <StatBox><small>남은 시간</small><strong>45.00</strong></StatBox>
-          <StatBox><small>성공한 쌍</small><strong>0/8</strong></StatBox>
-          <StatBox><small>남은 쌍</small><strong>8</strong></StatBox>
+          <StatBox><small>남은 시간</small><strong>{timeLabel}</strong></StatBox>
+          <StatBox><small>성공한 쌍</small><strong>{matchedPairs}/{totalPairs}</strong></StatBox>
+          <StatBox><small>남은 쌍</small><strong>{remainingPairs}</strong></StatBox>
         </StatRow>
 
         <SectionLabel>안내 메시지</SectionLabel>
-        <MessageBox>카드를 눌러 게임을 시작</MessageBox>
+        <MessageBox>{message}</MessageBox>
 
         <SectionLabel>최근 히스토리</SectionLabel>
-        <HistoryBox>아직 뒤집은 카드가 없어요</HistoryBox>
+        <HistoryList>
+          {turnHistory.length === 0 ? (
+            <li style={{ color: "#6b7280", textAlign: "center" }}>아직 뒤집은 카드가 없어요</li>
+          ) : (
+            turnHistory.map((h) => (
+              <HistoryItem key={h.ts} success={h.success}>
+                <span>{h.a}, {h.b}</span>
+                <strong>{h.success ? "성공" : "실패"}</strong>
+              </HistoryItem>
+            ))
+          )}
+        </HistoryList>
       </RightArea>
     </BoardShell>
   );
