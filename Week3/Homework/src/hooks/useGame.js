@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { buildDeck } from "../utils/deck";
+import { addRecord } from "../utils/ranking";
 import useTimer from "./useTimer";
 import useHistory from "./useHistory";
 
@@ -95,6 +96,7 @@ export default function useGame(level = 1, opts = {}) {
       pause();
       const timeSpent = (LEVEL_TIME[level] ?? 45) - seconds;
       onFinish?.({ type: "win", level, timeSpent });
+      addRecord(level, timeSpent);
     }
     return clearPendingTimeout;
     // eslint-disable-next-line react-hooks/exhaustive-deps
