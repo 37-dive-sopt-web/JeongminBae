@@ -5,9 +5,11 @@ import useHistory from "./useHistory";
 
 const LEVEL_TIME = { 1: 45, 2: 60, 3: 100 };
 
-export default function useGame(level = 1) {
+export default function useGame(level = 1, opts = {}) {
+  const { onFinish } = opts;
+
   const [deck, setDeck] = useState(() => buildDeck(level));
-  const [openIds, setOpenIds] = useState([]); 
+  const [openIds, setOpenIds] = useState([]);
   const [matched, setMatched] = useState(new Set());
   const [message, setMessage] = useState("카드를 눌러 게임을 시작");
   const [inputLocked, setInputLocked] = useState(false);
@@ -15,8 +17,11 @@ export default function useGame(level = 1) {
   const timeoutRef = useRef(null);
 
   // 타이머 & 히스토리
-  const { seconds, label: timeLabel, running, expired, start, pause, reset: resetTimer } =
-    useTimer(LEVEL_TIME[level] ?? 45);
+  const {
+    seconds, label: timeLabel, running, expired,
+    start, pause, reset: resetTimer
+  } = useTimer(LEVEL_TIME[level] ?? 45);
+
   const { history, pushPair, clear: clearHistory } = useHistory();
 
   const totalPairs = useMemo(() => deck.length / 2, [deck]);
@@ -41,7 +46,7 @@ export default function useGame(level = 1) {
     resetTimer(LEVEL_TIME[newLevel] ?? 45);
   };
 
-  const reset = () => doReset(level); // 외부에서 호출(버튼)
+  const reset = () => doReset(level);
 
   const flip = (id) => {
     if (inputLocked) return;
@@ -59,12 +64,11 @@ export default function useGame(level = 1) {
       const [aId, bId] = next;
       const a = deck.find((c) => c.id === aId);
       const b = deck.find((c) => c.id === bId);
-
       const isMatch = a.value === b.value;
+
       pushPair(a.value, b.value, isMatch);
 
       if (isMatch) {
-
         timeoutRef.current = setTimeout(() => {
           setMatched((prev) => {
             const s = new Set(prev);
@@ -86,10 +90,11 @@ export default function useGame(level = 1) {
   // 승리
   useEffect(() => {
     if (deck.length > 0 && matched.size === deck.length) {
-      setMessage("모든 쌍을 맞췄어요!");
+      setMessage("🎉 모든 쌍을 맞췄어요!");
       setInputLocked(true);
       pause();
-      timeoutRef.current = setTimeout(() => doReset(level), 3000);
+      const timeSpent = (LEVEL_TIME[level] ?? 45) - seconds;
+      onFinish?.({ type: "win", level, timeSpent });
     }
     return clearPendingTimeout;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,9 +103,9 @@ export default function useGame(level = 1) {
   // 시간 만료
   useEffect(() => {
     if (expired) {
-      setMessage("시간 만료!");
+      setMessage("⏰ 시간 만료!");
       setInputLocked(true);
-      timeoutRef.current = setTimeout(() => doReset(level), 3000);
+      onFinish?.({ type: "lose", level });
     }
     return clearPendingTimeout;
     // eslint-disable-next-line react-hooks/exhaustive-deps

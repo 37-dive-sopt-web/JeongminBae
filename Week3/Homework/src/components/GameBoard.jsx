@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 import Card from "./Card";
+import GameModal from "./GameModal";
+import useModal from "../hooks/useModal";
 import useGame from "../hooks/useGame";
 
 /* ====== Styled ====== */
@@ -114,13 +116,7 @@ const HistoryList = styled.ul`
   border-radius: 8px;
   height: 220px;
   overflow: auto;
-  display: grid;
-  gap: 6px;
-  font-size: 13px;
-  display: grid;
   grid-auto-rows: 34px;
-  gap: 6px;
-  font-size: 13px;
   align-content: start;
 `;
 
@@ -135,16 +131,39 @@ const HistoryItem = styled.li`
   line-height: 1.2;
 `;
 
-
-
 /* ====== Component ====== */
 export default function GameBoard() {
+  const modal = useModal();
+
   const {
     deck, openIds, matched, message,
     totalPairs, matchedPairs, remainingPairs,
     timeLabel, history: turnHistory,
     inputLocked, reset, flip,
-  } = useGame(1);
+  } = useGame(1, {
+    onFinish: ({ type, level, timeSpent }) => {
+      // 모달 띄우고 3초 뒤 자동 닫힘 + 게임 리셋
+      if (type === "win") {
+        modal.show(
+          {
+            title: "!!!축하해요!!!",
+            description: `Level ${level}을 ${timeSpent?.toFixed?.(2) ?? "-"}초 만에 클리어했어요`,
+            subText: "3초 후 자동으로 새 게임을 시작해요",
+          },
+          { autoCloseMs: 3000, onAutoClose: reset }
+        );
+      } else {
+        modal.show(
+          {
+            title: "아쉬워요......",
+            description: `제한 시간 만료로 실패했어요`,
+            subText: "3초 후 자동으로 새 게임을 시작해요",
+          },
+          { autoCloseMs: 3000, onAutoClose: reset }
+        );
+      }
+    },
+  });
 
   return (
     <BoardShell>
@@ -168,7 +187,6 @@ export default function GameBoard() {
                 value={card.value}
                 onClick={() => flip(card.id)}
                 disabled={inputLocked || (openIds.length === 2 && !isOpen)}
-                title={card.id}
               />
             );
           })}
@@ -206,6 +224,18 @@ export default function GameBoard() {
           )}
         </HistoryList>
       </RightArea>
+
+      {/* 모달 */}
+      <GameModal
+        open={modal.open}
+        title={modal.data?.title}
+        description={modal.data?.description}
+        subText={
+          modal.countdown != null
+            ? `${modal.countdown}초 후 자동으로 새 게임이 시작돼요`
+            : modal.data?.subText
+        }
+      />
     </BoardShell>
   );
 }

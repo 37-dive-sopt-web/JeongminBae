@@ -57,6 +57,6 @@ export default function useTimer(initialSeconds = 45) {
     start,
     pause,
     reset,
-    setSeconds, 
+    setSeconds,
   };
 }

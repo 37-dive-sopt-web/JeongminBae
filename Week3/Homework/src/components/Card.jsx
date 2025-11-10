@@ -70,9 +70,9 @@ const FocusRing = styled.span`
   transition: opacity 0.2s ease, transform 0.2s ease;
 `;
 
-export default function Card({ open, matched, value, onClick, disabled, title }) {
+export default function Card({ open, matched, value, onClick, disabled }) {
   return (
-    <CardButton onClick={onClick} disabled={disabled} title={title} aria-pressed={open}>
+    <CardButton onClick={onClick} disabled={disabled} aria-pressed={open}>
       <Inner className="inner" open={open}>
         <Back>?</Back>
         <Front matched={matched}>{value}</Front>

@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-/** 뒤집은 카드 쌍 기록 (최근순) */
+/* 뒤집은 카드 쌍 기록 (최근순) */
 export default function useHistory() {
   const [history, setHistory] = useState([]);
 
