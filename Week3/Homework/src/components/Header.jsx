@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+﻿import styled from "@emotion/styled";
 
 const HeaderBox = styled.header`
 
@@ -6,8 +6,8 @@ width: 1100px;
   margin: 12px auto 20px;
   padding: 18px 16px;
 
-  background: #eaf7ef;
-  border: 1px solid #dbe7e1;
+  background: ${({ theme }) => theme.colors.primarySoft};
+  border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(25, 76, 46, 0.08);
 
@@ -16,12 +16,17 @@ width: 1100px;
   justify-content: space-between;
 `;
 
-const Title = styled.h1` margin:0; font-size:30px; font-weight:700; color:#194c2e; `;
+const Title = styled.h1` margin:0; font-size:30px; font-weight:700; ${({ theme }) => theme.colors.text}; `;
 const Tabs = styled.nav` display:flex; gap:8px; `;
 const TabBtn = styled.button`
-  border:1px solid #95c9a9; border-radius:999px; padding:6px 12px;
-  background:${p=>p.active ? "#95c9a9" : "transparent"};
-  color:${p=>p.active ? "#194c2e" : "#194c2eaa"}; font-weight:600; cursor:pointer; line-height:1;
+  border:1px solid ${({ theme }) => theme.colors.primary}; 
+  border-radius:999px; padding:6px 12px;
+background: ${({ theme, active }) => active ? theme.colors.primary : "transparent"};
+color: ${({ theme, active }) => active ? theme.colors.text : theme.colors.mutedText};
+font-weight: 600;
+cursor: pointer;
+line-height: 1;
+
 `;
 
 export default function Header({ currentTab, onChangeTab }) {
@@ -35,3 +40,5 @@ export default function Header({ currentTab, onChangeTab }) {
     </HeaderBox>
   );
 }
+
+

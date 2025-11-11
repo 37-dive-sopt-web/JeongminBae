@@ -1,4 +1,5 @@
-import styled from "@emotion/styled";
+﻿import styled from "@emotion/styled";
+import { useState } from "react";
 import Card from "./Card";
 import GameModal from "./GameModal";
 import useModal from "../hooks/useModal";
@@ -49,10 +50,24 @@ const ResetButton = styled.button`
 const BoardGrid = styled.div`
   --cell: 112px;
   display: grid;
-  grid-template-columns: repeat(4, var(--cell));
   gap: 14px;
   justify-content: center;
   padding: 8px 0 4px;
+`;
+
+const BoardGridLv1 = styled(BoardGrid)`
+  --cell: 112px;
+  grid-template-columns: repeat(4, var(--cell));
+`;
+
+const BoardGridLv2 = styled(BoardGrid)`
+  --cell: 92px;
+  grid-template-columns: repeat(6, var(--cell));
+`;
+
+const BoardGridLv3 = styled(BoardGrid)`
+  --cell: 74px;
+  grid-template-columns: repeat(6, var(--cell));
 `;
 
 const RightArea = styled.aside`
@@ -133,6 +148,7 @@ const HistoryItem = styled.li`
 
 /* ====== Component ====== */
 export default function GameBoard() {
+  const [level, setLevel] = useState(1);
   const modal = useModal();
 
   const {
@@ -140,29 +156,44 @@ export default function GameBoard() {
     totalPairs, matchedPairs, remainingPairs,
     timeLabel, history: turnHistory,
     inputLocked, reset, flip,
-  } = useGame(1, {
+  } = useGame(level, {
     onFinish: ({ type, level, timeSpent }) => {
-      // 모달 띄우고 3초 뒤 자동 닫힘 + 게임 리셋
+      // 모달 띄우기 + 3초 후 자동 시작 + 게임 리셋
       if (type === "win") {
         modal.show(
           {
             title: "!!!축하해요!!!",
             description: `Level ${level}을 ${timeSpent?.toFixed?.(2) ?? "-"}초 만에 클리어했어요`,
-            subText: "3초 후 자동으로 새 게임을 시작해요",
+            subText: "3초 후 자동으로 새 게임이 시작돼요",
           },
           { autoCloseMs: 3000, onAutoClose: reset }
         );
       } else {
         modal.show(
           {
-            title: "아쉬워요......",
-            description: `제한 시간 만료로 실패했어요`,
-            subText: "3초 후 자동으로 새 게임을 시작해요",
+            title: "아쉬워요...",
+            description: "제한 시간이 만료되어 실패했어요.",
+            subText: "3초 후 자동으로 새 게임이 시작돼요",
           },
           { autoCloseMs: 3000, onAutoClose: reset }
         );
       }
     },
+  });
+
+  // 카드 목록 한 번만 생성
+  const Cards = deck.map((card) => {
+    const isOpen = openIds.includes(card.id) || matched.has(card.id);
+    return (
+      <Card
+        key={card.id}
+        open={isOpen}
+        matched={matched.has(card.id)}
+        value={card.value}
+        onClick={() => flip(card.id)}
+        disabled={inputLocked || (openIds.length === 2 && !isOpen)}
+      />
+    );
   });
 
   return (
@@ -176,26 +207,18 @@ export default function GameBoard() {
           </ResetButton>
         </BoardHeader>
 
-        <BoardGrid>
-          {deck.map((card) => {
-            const isOpen = openIds.includes(card.id) || matched.has(card.id);
-            return (
-              <Card
-                key={card.id}
-                open={isOpen}
-                matched={matched.has(card.id)}
-                value={card.value}
-                onClick={() => flip(card.id)}
-                disabled={inputLocked || (openIds.length === 2 && !isOpen)}
-              />
-            );
-          })}
-        </BoardGrid>
+        {level === 1 ? (
+          <BoardGridLv1>{Cards}</BoardGridLv1>
+        ) : level === 2 ? (
+          <BoardGridLv2>{Cards}</BoardGridLv2>
+        ) : (
+          <BoardGridLv3>{Cards}</BoardGridLv3>
+        )}
       </LeftArea>
 
       {/* 우측 : 패널 */}
       <RightArea>
-        <LevelSelect aria-label="레벨 선택" defaultValue="1" disabled>
+        <LevelSelect aria-label="레벨 선택" value={String(level)} onChange={(e) => setLevel(Number(e.target.value))}>
           <option value="1">Level 1</option>
           <option value="2">Level 2</option>
           <option value="3">Level 3</option>

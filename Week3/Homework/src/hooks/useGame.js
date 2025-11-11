@@ -49,6 +49,12 @@ export default function useGame(level = 1, opts = {}) {
 
   const reset = () => doReset(level);
 
+  // 레벨이 바뀌면 상태를 해당 레벨로 초기화
+  useEffect(() => {
+    doReset(level);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [level]);
+
   const flip = (id) => {
     if (inputLocked) return;
     if (matched.has(id)) { setMessage("이미 맞춘 카드예요"); return; }
@@ -105,7 +111,7 @@ export default function useGame(level = 1, opts = {}) {
   // 시간 만료
   useEffect(() => {
     if (expired) {
-      setMessage("⏰ 시간 만료!");
+      setMessage("시간 만료!");
       setInputLocked(true);
       onFinish?.({ type: "lose", level });
     }

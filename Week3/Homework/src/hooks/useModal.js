@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+// 모달 상태/카운트다운/자동 닫힘 관리
 
 export default function useModal() {
   const [open, setOpen] = useState(false);
@@ -7,6 +8,7 @@ export default function useModal() {
   const intervalRef = useRef(null);
   const [countdown, setCountdown] = useState(null);
 
+  // 모달 열기 (자동 닫힘 옵션 지원)
   const show = useCallback((payload, opts = {}) => {
     const { autoCloseMs, onAutoClose } = opts;
     if (timerRef.current) clearTimeout(timerRef.current);
@@ -42,6 +44,7 @@ export default function useModal() {
     }
   }, []);
 
+  // 모달 닫기 (타이머/인터벌 정리)
   const hide = useCallback(() => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
@@ -55,6 +58,7 @@ export default function useModal() {
     setOpen(false);
   }, []);
 
+  // 언마운트 정리
   useEffect(() => () => {
     if (timerRef.current) clearTimeout(timerRef.current);
     if (intervalRef.current) clearInterval(intervalRef.current);
