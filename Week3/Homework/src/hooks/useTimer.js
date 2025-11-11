@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
+// 3초 카운트다운 타이머
 
 export default function useTimer(initialSeconds = 45) {
   const [seconds, setSeconds] = useState(initialSeconds);
@@ -36,13 +37,16 @@ export default function useTimer(initialSeconds = 45) {
     };
   }, [running, tick]);
 
+  // 타이머 시작
   const start = useCallback(() => {
     if (expired) setExpired(false);
     last.current = null;
     setRunning(true);
   }, [expired]);
 
+  // 타이머 일시정지
   const pause = useCallback(() => setRunning(false), []);
+  // 초기값으로 재설정
   const reset = useCallback((nextInitial = initialSeconds) => {
     setRunning(false);
     setExpired(false);

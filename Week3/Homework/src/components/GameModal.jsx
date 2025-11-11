@@ -1,6 +1,8 @@
 import { createPortal } from "react-dom";
 import styled from "@emotion/styled";
 
+// 모달
+
 const Overlay = styled.div`
   position: fixed;
   inset: 0;

@@ -2,6 +2,8 @@
 import styled from "@emotion/styled";
 import { loadRecords, clearRecords as clearAllRecords } from "../utils/ranking";
 
+// 랭킹 기록을 불러오기 & 초기화
+
 const Wrapper = styled.section`
   width: 1100px;
   margin: 0 auto;
@@ -66,6 +68,7 @@ export default function RankingBoard() {
     setRecords(loadRecords());
   }, []);
 
+  // 로컬 저장소 기록 전체 삭제
   const clearRecords = () => {
     clearAllRecords();
     setRecords([]);

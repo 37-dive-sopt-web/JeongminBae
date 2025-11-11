@@ -4,6 +4,8 @@ import { addRecord } from "../utils/ranking";
 import useTimer from "./useTimer";
 import useHistory from "./useHistory";
 
+// 카드 매칭 게임 로직 관리
+
 const LEVEL_TIME = { 1: 45, 2: 60, 3: 100 };
 
 export default function useGame(level = 1, opts = {}) {
@@ -36,6 +38,7 @@ export default function useGame(level = 1, opts = {}) {
     }
   };
 
+  // 게임 상태 초기화
   const doReset = (newLevel = level) => {
     clearPendingTimeout();
     setDeck(buildDeck(newLevel));
@@ -55,6 +58,7 @@ export default function useGame(level = 1, opts = {}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [level]);
 
+  // 카드 뒤집기
   const flip = (id) => {
     if (inputLocked) return;
     if (matched.has(id)) { setMessage("이미 맞춘 카드예요"); return; }
@@ -120,7 +124,7 @@ export default function useGame(level = 1, opts = {}) {
   }, [expired]);
 
   return {
-    // 상태
+    // 게임 상태
     deck,
     openIds,
     matched,

@@ -5,6 +5,8 @@ import GameModal from "./GameModal";
 import useModal from "../hooks/useModal";
 import useGame from "../hooks/useGame";
 
+// 메인 게임 보드
+
 /* ====== Styled ====== */
 const BoardShell = styled.section`
   width: 1100px;
@@ -182,6 +184,7 @@ export default function GameBoard() {
   });
 
   // 카드 목록 한 번만 생성
+  // 카드 리스트를 렌더링
   const Cards = deck.map((card) => {
     const isOpen = openIds.includes(card.id) || matched.has(card.id);
     return (

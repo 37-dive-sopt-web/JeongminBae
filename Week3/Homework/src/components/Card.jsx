@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 
+// 카드 렌더링
+
 const CardButton = styled.button`
   position: relative;
   width: var(--cell);
@@ -70,6 +72,7 @@ const FocusRing = styled.span`
   transition: opacity 0.2s ease, transform 0.2s ease;
 `;
 
+// open: 뒤집힌 상태, matched: 매칭 여부
 export default function Card({ open, matched, value, onClick, disabled }) {
   return (
     <CardButton onClick={onClick} disabled={disabled} aria-pressed={open}>

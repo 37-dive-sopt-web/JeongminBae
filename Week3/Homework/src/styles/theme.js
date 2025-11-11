@@ -9,7 +9,7 @@ export const theme = {
     cardMatched: '#54b691',
     cardFlip: '#eaf7ef',
     resetButton: '#e65f5fff',
-    
+
     background: '#f8fff9',
     surface: '#ffffff',
     text: '#194c2e',
