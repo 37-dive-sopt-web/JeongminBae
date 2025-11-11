@@ -1,0 +1,66 @@
+import { useCallback, useEffect, useRef, useState } from "react";
+
+// 3초 카운트다운 타이머
+
+export default function useTimer(initialSeconds = 45) {
+  const [seconds, setSeconds] = useState(initialSeconds);
+  const [running, setRunning] = useState(false);
+  const [expired, setExpired] = useState(false);
+
+  const raf = useRef(null);
+  const last = useRef(null);
+
+  const tick = useCallback((t) => {
+    if (!running) return;
+    if (!last.current) last.current = t;
+    const delta = (t - last.current) / 1000;
+    last.current = t;
+
+    setSeconds((s) => {
+      const next = Math.max(0, s - delta);
+      if (next === 0) {
+        setRunning(false);
+        setExpired(true);
+      }
+      return next;
+    });
+
+    raf.current = requestAnimationFrame(tick);
+  }, [running]);
+
+  useEffect(() => {
+    if (running) raf.current = requestAnimationFrame(tick);
+    return () => {
+      if (raf.current) cancelAnimationFrame(raf.current);
+      raf.current = null;
+      last.current = null;
+    };
+  }, [running, tick]);
+
+  // 타이머 시작
+  const start = useCallback(() => {
+    if (expired) setExpired(false);
+    last.current = null;
+    setRunning(true);
+  }, [expired]);
+
+  // 타이머 일시정지
+  const pause = useCallback(() => setRunning(false), []);
+  // 초기값으로 재설정
+  const reset = useCallback((nextInitial = initialSeconds) => {
+    setRunning(false);
+    setExpired(false);
+    setSeconds(nextInitial);
+  }, [initialSeconds]);
+
+  return {
+    seconds,
+    label: seconds.toFixed(2),
+    running,
+    expired,
+    start,
+    pause,
+    reset,
+    setSeconds,
+  };
+}
