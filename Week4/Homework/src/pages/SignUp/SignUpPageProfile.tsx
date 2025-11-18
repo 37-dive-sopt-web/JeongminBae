@@ -1,4 +1,4 @@
-import Input from "@/components/ui/Input";
+﻿import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import * as styles from "./signUpPage.css.ts";
 
@@ -36,6 +36,7 @@ export default function SignUpPageProfile({
       <div className={styles.field}>
         <div className={styles.label}>이메일</div>
         <Input
+          type="email"
           placeholder="name@example.com"
           value={email}
           onChange={(e) => onChangeEmail(e.target.value)}
@@ -44,6 +45,7 @@ export default function SignUpPageProfile({
       <div className={styles.field}>
         <div className={styles.label}>나이</div>
         <Input
+          type="number"
           placeholder="숫자로 입력"
           value={age}
           onChange={(e) => onChangeAge(e.target.value)}
@@ -57,4 +59,3 @@ export default function SignUpPageProfile({
     </>
   );
 }
-

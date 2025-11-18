@@ -26,7 +26,12 @@ export default function LoginPage() {
             }
             setError("");
             // TODO: ky 로그인 API 연동
-            alert(`로그인 시도: ${username}`);
+    // 임시 로그인 : localStorage에 저장
+    localStorage.setItem("userId", username);
+    localStorage.setItem("userName", username); // 일단 아이디를 이름처럼 사용
+
+    // 로그인 성공 후 마이페이지로 이동
+    navigate("/mypage");
           }}
         >
           <div className={styles.field}>
