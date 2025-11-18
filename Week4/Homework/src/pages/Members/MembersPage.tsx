@@ -2,6 +2,7 @@ import { useState } from "react";
 import Header from "@/components/layout/Header";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
+import WithdrawModal from "@/components/withdraw/WithdrawModal";
 import * as styles from "./members.css.ts";
 
 type Member = { id: string; name: string; email: string; age: string };
@@ -11,6 +12,7 @@ export default function MembersPage() {
   const [memberId, setMemberId] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<Member | null>(null);
+  const [showWithdraw, setShowWithdraw] = useState(false);
 
   const canSearch = memberId.trim() !== "";
 
@@ -28,7 +30,7 @@ export default function MembersPage() {
     } else {
       setResult({
         id: memberId,
-        name: `사용자 ${memberId}`,
+        name: `게스트 ${memberId}`,
         email: `${memberId}@example.com`,
         age: "20",
       });
@@ -38,7 +40,10 @@ export default function MembersPage() {
 
   return (
     <div>
-      <Header userName={displayName} />
+      <Header
+        userName={displayName}
+        onClickWithdraw={() => setShowWithdraw(true)}
+      />
       <main className={styles.main}>
         <div className={styles.container}>
           <h1 className={styles.title}>회원 조회</h1>
@@ -51,7 +56,7 @@ export default function MembersPage() {
                   type="number"
                   step={1}
                   min={0}
-                  placeholder="숫자만 입력"
+                  placeholder="숫자로 입력"
                   value={memberId}
                   onChange={(e) => setMemberId(e.currentTarget.value)}
                 />
@@ -93,6 +98,11 @@ export default function MembersPage() {
           )}
         </div>
       </main>
+
+      {showWithdraw && (
+        <WithdrawModal onClose={() => setShowWithdraw(false)} />
+      )}
     </div>
   );
 }
+

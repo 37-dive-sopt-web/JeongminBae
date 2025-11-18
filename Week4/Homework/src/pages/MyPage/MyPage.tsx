@@ -3,6 +3,7 @@ import { useState } from "react";
 import Header from "@/components/layout/Header";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
+import WithdrawModal from "@/components/withdraw/WithdrawModal";
 import * as styles from "./myPage.css.ts";
 
 export default function MyPage() {
@@ -14,6 +15,7 @@ export default function MyPage() {
   const [email, setEmail] = useState(localStorage.getItem("email") ?? "");
   const [age, setAge] = useState(localStorage.getItem("age") ?? "");
   const [saving, setSaving] = useState(false);
+  const [showWithdraw, setShowWithdraw] = useState(false);
 
   const userId = localStorage.getItem("userId") ?? "-";
   const canSave = name.trim() !== "" && email.includes("@") && age.trim() !== "";
@@ -34,7 +36,10 @@ export default function MyPage() {
 
   return (
     <div>
-      <Header userName={displayName} />
+      <Header
+        userName={displayName}
+        onClickWithdraw={() => setShowWithdraw(true)}
+      />
 
       <main className={styles.main}>
         <div className={styles.container}>
@@ -91,7 +96,10 @@ export default function MyPage() {
           </section>
         </div>
       </main>
+
+      {showWithdraw && (
+        <WithdrawModal onClose={() => setShowWithdraw(false)} />
+      )}
     </div>
   );
 }
-

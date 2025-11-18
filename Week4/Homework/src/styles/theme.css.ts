@@ -10,6 +10,7 @@ export const [themeClass, vars] = createTheme({
     primaryHover: "#65C9B0",
     border: "#E5E7EB",
     error: "#EF4444",
+    errorHover: "#DC2626",
   },
   font: {
     body: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
