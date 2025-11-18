@@ -1,5 +1,4 @@
-﻿// src/pages/MyPage/MyPage.tsx
-import { useState } from "react";
+﻿import { useState } from "react";
 import Header from "@/components/layout/Header";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
@@ -17,7 +16,7 @@ export default function MyPage() {
   const [saving, setSaving] = useState(false);
   const [showWithdraw, setShowWithdraw] = useState(false);
 
-  const userId = localStorage.getItem("userId") ?? "-";
+  const userId = localStorage.getItem("userName") ?? "-";
   const canSave = name.trim() !== "" && email.includes("@") && age.trim() !== "";
 
   const handleSave = () => {

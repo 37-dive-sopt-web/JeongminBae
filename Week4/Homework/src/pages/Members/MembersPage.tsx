@@ -4,8 +4,7 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import WithdrawModal from "@/components/withdraw/WithdrawModal";
 import * as styles from "./members.css.ts";
-
-type Member = { id: string; name: string; email: string; age: string };
+import { getUser, type Member } from "@/api/user.ts";
 
 export default function MembersPage() {
   const [displayName] = useState(localStorage.getItem("userName") ?? "게스트");
@@ -16,26 +15,24 @@ export default function MembersPage() {
 
   const canSearch = memberId.trim() !== "";
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     if (!canSearch) return;
-    setLoading(true);
 
-    const savedId = localStorage.getItem("userId") ?? "";
-    const savedName = localStorage.getItem("userName") ?? "";
-    const savedEmail = localStorage.getItem("email") ?? "";
-    const savedAge = localStorage.getItem("age") ?? "";
+    try {
+      setLoading(true);
+      setResult(null);
 
-    if (memberId === savedId && savedName) {
-      setResult({ id: savedId, name: savedName, email: savedEmail, age: savedAge });
-    } else {
-      setResult({
-        id: memberId,
-        name: `게스트 ${memberId}`,
-        email: `${memberId}@example.com`,
-        age: "20",
-      });
+      const member = await getUser(Number(memberId));
+      setResult(member);
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "회원 정보를 불러오지 못했습니다.";
+      alert(message);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (

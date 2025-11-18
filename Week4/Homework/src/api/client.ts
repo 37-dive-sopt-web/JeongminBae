@@ -5,6 +5,7 @@ export const api = ky.create({
   headers: {
     "Content-Type": "application/json",
   },
+  throwHttpErrors: false,
 });
 
 export type ApiResponse<T> = {
@@ -13,4 +14,3 @@ export type ApiResponse<T> = {
   message: string;
   data: T | null;
 };
-

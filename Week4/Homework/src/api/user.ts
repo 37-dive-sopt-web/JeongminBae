@@ -17,15 +17,8 @@ export type SignUpPayload = {
   age: number;
 };
 
-export type LoginPayload = {
-  username: string;
-  password: string;
-};
-
-export type LoginResult = {
-  userId: number;
-  message: string;
-};
+export type LoginPayload = { username: string; password: string };
+export type LoginResult = { userId: number; message: string };
 
 function unwrap<T>(res: ApiResponse<T>, defaultMessage: string): T {
   if (!res.success || !res.data) {
@@ -35,18 +28,16 @@ function unwrap<T>(res: ApiResponse<T>, defaultMessage: string): T {
 }
 
 export async function signUp(payload: SignUpPayload): Promise<Member> {
-  const res = await api
-    .post("api/v1/users", { json: payload })
-    .json<ApiResponse<Member>>();
-
+  const res = await api.post("api/v1/users", { json: payload }).json<ApiResponse<Member>>();
   return unwrap(res, "회원가입에 실패했습니다.");
 }
 
 export async function login(payload: LoginPayload): Promise<LoginResult> {
-  const res = await api
-    .post("api/v1/auth/login", { json: payload })
-    .json<ApiResponse<LoginResult>>();
-
+  const res = await api.post("api/v1/auth/login", { json: payload }).json<ApiResponse<LoginResult>>();
   return unwrap(res, "로그인에 실패했습니다.");
 }
 
+export async function getUser(id: number): Promise<Member> {
+  const res = await api.get(`api/v1/users/${id}`).json<ApiResponse<Member>>();
+  return unwrap(res, "회원 정보를 불러오지 못했습니다.");
+}
