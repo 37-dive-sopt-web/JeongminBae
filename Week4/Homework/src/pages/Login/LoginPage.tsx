@@ -1,28 +1,14 @@
-// src/pages/auth/LoginPage.tsx
-import { useState } from "react";
+﻿import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as styles from "./loginPage.css.ts";
+import Button from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
 
-function LoginPage() {
+export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  const handleSubmit = () => {
-    // 아이디/비번 비어 있으면 에러
-    if (!username || !password) {
-      setError("아이디와 비밀번호를 모두 입력해주세요.");
-      return;
-    }
-
-    setError("");
-    // 나중에 여기서 ky로 로그인 API 호출
-    alert(`로그인 시도: ${username}`);
-  };
-
-  const handleGoSignUp = () => {
-    // 나중에 라우터 연결 자리
-    alert("회원가입 페이지로 이동 (라우터 연결 예정)");
-  };
+  const navigate = useNavigate();
 
   const isLoginDisabled = !username || !password;
 
@@ -32,15 +18,21 @@ function LoginPage() {
         <h1 className={styles.title}>로그인</h1>
 
         <form
-          onSubmit={(event) => {
-            event.preventDefault(); // 새로고침 막기
-            handleSubmit();
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (!username || !password) {
+              setError("아이디와 비밀번호를 입력해주세요.");
+              return;
+            }
+            setError("");
+            // TODO: ky 로그인 API 연동
+
+            alert(`로그인 시도: ${username}`);
           }}
         >
           <div className={styles.field}>
             <div className={styles.label}>아이디</div>
-            <input
-              className={styles.input}
+            <Input
               type="text"
               placeholder="아이디를 입력해 주세요"
               value={username}
@@ -50,8 +42,7 @@ function LoginPage() {
 
           <div className={styles.field}>
             <div className={styles.label}>비밀번호</div>
-            <input
-              className={styles.input}
+            <Input
               type="password"
               placeholder="비밀번호를 입력해 주세요"
               value={password}
@@ -62,25 +53,15 @@ function LoginPage() {
           {error && <p className={styles.errorText}>{error}</p>}
 
           <div className={styles.actions}>
-            <button
-              type="submit"
-              className={styles.loginButton}
-              disabled={isLoginDisabled}
-            >
+            <Button type="submit" fullWidth disabled={isLoginDisabled}>
               로그인
-            </button>
-            <button
-              type="button"
-              className={styles.signupButton}
-              onClick={handleGoSignUp}
-            >
+            </Button>
+            <Button type="button" variant="link" onClick={() => navigate("/signup/id")}>
               회원가입
-            </button>
+            </Button>
           </div>
         </form>
       </div>
     </div>
   );
 }
-
-export default LoginPage;
