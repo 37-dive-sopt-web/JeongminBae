@@ -28,13 +28,13 @@ export default function Header({ userName }: Props) {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
-        /* 좌측: 타이틀 + 사용자명 */
+        {/* 좌측: 타이틀 + 사용자명 */}
         <div className={styles.left}>
           <div className={styles.title}>마이페이지</div>
           <div className={styles.subtitle}>안녕하세요 {userName}</div>
         </div>
 
-        /* 우측: 내비게이션 */
+        {/* 우측: 내비게이션 */}
         <nav className={styles.nav}>
           <NavItem to="/mypage">내 정보</NavItem>
           <NavItem to="/members">회원 조회</NavItem>

@@ -1,4 +1,4 @@
-import { style } from "@vanilla-extract/css";
+﻿import { style } from "@vanilla-extract/css";
 import { vars } from "@/styles/theme.css.ts";
 
 export const header = style({
@@ -47,32 +47,32 @@ export const navItem = style({
   color: vars.color.surface,
   opacity: 0.5,
   transition: "opacity 0.2s ease, font-weight 0.2s ease",
-
   selectors: {
-    "&:hover": {
+    '&:hover': {
+      opacity: 1,
     },
-    "&.active": {
-      color: vars.color.surface, 
-      opacity: 1, 
+    '&.active': {
+      color: vars.color.surface,
+      opacity: 1,
       fontWeight: 700,
     },
   },
 });
 
 export const navButton = style({
-  background: "none",
-  border: "none",
-  cursor: "pointer",
-  fontSize: "16px",
+  background: 'none',
+  border: 'none',
+  cursor: 'pointer',
+  fontSize: '16px',
   fontWeight: 600,
   color: vars.color.surface,
   opacity: 0.35,
-  transition: "opacity 0.2s ease, font-weight 0.2s ease",
+  transition: 'opacity 0.2s ease, font-weight 0.2s ease',
   selectors: {
-    "&:hover": {
-      opacity: 0.7,
+    '&:hover': {
+      opacity: 1,
     },
-    "&.active": {
+    '&.active': {
       color: vars.color.surface,
       opacity: 1,
       fontWeight: 700,
