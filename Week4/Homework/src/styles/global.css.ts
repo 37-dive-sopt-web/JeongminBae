@@ -9,4 +9,5 @@ globalStyle(`.${themeClass}`, {
 
 globalStyle("#root", {
   minHeight: "100vh",
+  width: "100%",
 });
