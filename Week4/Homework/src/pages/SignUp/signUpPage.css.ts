@@ -21,7 +21,6 @@ export const box = style({
   boxSizing: "border-box",
 });
 
-// 상단 ← 버튼
 export const backButton = style({
   border: "none",
   background: "none",

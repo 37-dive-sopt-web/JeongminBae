@@ -7,11 +7,13 @@ import { updateUser } from "@/api/user.ts";
 import * as styles from "./myPage.css.ts";
 
 export default function MyPage() {
-  const [displayName, setDisplayName] = useState(
-    localStorage.getItem("userName") ?? "게스트",
-  );
+  const initialName =
+    localStorage.getItem("name") ?? localStorage.getItem("userName") ?? "";
 
-  const [name, setName] = useState(localStorage.getItem("userName") ?? "");
+  const [displayName, setDisplayName] = useState(
+    initialName || "게스트",
+  );
+  const [name, setName] = useState(initialName);
   const [email, setEmail] = useState(localStorage.getItem("email") ?? "");
   const [age, setAge] = useState(localStorage.getItem("age") ?? "");
   const [saving, setSaving] = useState(false);
@@ -42,7 +44,7 @@ export default function MyPage() {
         age: Number(age),
       });
 
-      localStorage.setItem("userName", name);
+      localStorage.setItem("name", name);
       localStorage.setItem("email", email);
       localStorage.setItem("age", age);
       setDisplayName(name);

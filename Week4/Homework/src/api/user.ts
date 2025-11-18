@@ -55,3 +55,15 @@ export async function updateUser(id: number, payload: UpdateUserPayload): Promis
   return unwrap(res, "회원 정보를 수정하지 못했습니다.");
 }
 
+export async function deleteUser(id: number): Promise<string> {
+  const res = await api
+    .delete(`api/v1/users/${id}`)
+    .json<ApiResponse<null>>();
+
+  if (!res.success) {
+    throw new Error(res.message || "회원 탈퇴에 실패했습니다.");
+  }
+
+  return res.message;
+}
+

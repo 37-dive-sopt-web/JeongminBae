@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as styles from "./withdrawModal.css.ts";
+import { deleteUser } from "@/api/user.ts";
 
 export default function WithdrawModal({ onClose }: { onClose: () => void }) {
   const [withdrawing, setWithdrawing] = useState(false);
   const navigate = useNavigate();
-
-  const userId = localStorage.getItem("userId");
 
   const handleCancel = () => {
     if (withdrawing) return;
@@ -14,7 +13,8 @@ export default function WithdrawModal({ onClose }: { onClose: () => void }) {
   };
 
   const handleConfirmWithdraw = async () => {
-    if (!userId) {
+    const idStr = localStorage.getItem("userId");
+    if (!idStr) {
       alert("로그인된 회원 정보가 없습니다.");
       onClose();
       return;
@@ -23,18 +23,22 @@ export default function WithdrawModal({ onClose }: { onClose: () => void }) {
     try {
       setWithdrawing(true);
 
-      // TODO: ky 회원탈퇴 API 연동
-      // 임시 구현: 로컬스토리지에 저장된 내 정보를 삭제
+      const message = await deleteUser(Number(idStr));
+
       localStorage.removeItem("userId");
       localStorage.removeItem("userName");
+      localStorage.removeItem("name");
       localStorage.removeItem("email");
       localStorage.removeItem("age");
 
-      alert("회원탈퇴가 완료되었습니다. 로그인 페이지로 이동합니다.");
+      alert(message || "회원 탈퇴가 완료되었습니다. 로그인 페이지로 이동합니다.");
       navigate("/login");
     } catch (error) {
-      console.error(error);
-      alert("회원탈퇴에 실패했습니다. 다시 시도해 주세요.");
+      const msg =
+        error instanceof Error
+          ? error.message
+          : "회원 탈퇴에 실패했습니다. 다시 시도해 주세요.";
+      alert(msg);
     } finally {
       setWithdrawing(false);
       onClose();
@@ -69,3 +73,4 @@ export default function WithdrawModal({ onClose }: { onClose: () => void }) {
     </div>
   );
 }
+

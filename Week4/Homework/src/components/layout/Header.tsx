@@ -25,19 +25,20 @@ export default function Header({ userName, onClickWithdraw }: Props) {
     if (!ok) return;
     localStorage.removeItem("userId");
     localStorage.removeItem("userName");
+    localStorage.removeItem("name");
+    localStorage.removeItem("email");
+    localStorage.removeItem("age");
     navigate("/login");
   };
 
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
-        {/* 왼쪽: 타이틀 + 사용자명 */}
         <div className={styles.left}>
           <div className={styles.title}>마이페이지</div>
-          <div className={styles.subtitle}>안녕하세요, {userName}</div>
+          <div className={styles.subtitle}>안녕하세요, {userName}님</div>
         </div>
 
-        {/* 오른쪽: 네비게이션 */}
         <nav className={styles.nav}>
           <NavItem to="/mypage">내 정보</NavItem>
           <NavItem to="/members">회원 조회</NavItem>
