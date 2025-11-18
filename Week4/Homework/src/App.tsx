@@ -8,9 +8,8 @@ function App() {
     <div className={themeClass}>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup/id" element={<SignUpPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
 
-        {/* 그 외 주소는 전부 /login으로 */}
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>    
     </div>
@@ -18,3 +17,4 @@ function App() {
 }
 
 export default App;
+

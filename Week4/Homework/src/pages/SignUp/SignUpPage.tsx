@@ -1,25 +1,32 @@
-﻿// src/pages/SignUp/SignUpPage.tsx
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+﻿import { useNavigate } from "react-router-dom";
 import * as styles from "./signUpPage.css.ts";
-import Button from "@/components/ui/Button";
-import Input from "@/components/ui/Input";
+import SignUpPageId from "./SignUpPageId";
+import SignUpPagePassword from "./SignUpPagePassword";
+import SignUpPageProfile from "./SignUpPageProfile";
+import { useSignup } from "@/hooks/useSignup";
 
-function SignUpPage() {
-  const [username, setUsername] = useState("");
+export default function SignUpPage() {
   const navigate = useNavigate();
-
-  const handleNext = () => {
-    if (!username.trim()) return;
-    // TODO: 다음 단계(비밀번호 입력)로 라우팅 및 아이디 전달
-    alert(`다음 단계로 이동 (아이디: ${username})`);
-  };
-
-  const handleGoLogin = () => {
-    navigate("/login");
-  };
-
-  const isNextDisabled = !username.trim();
+  const {
+    step,
+    setStep,
+    username,
+    setUsername,
+    password,
+    setPassword,
+    confirm,
+    setConfirm,
+    name,
+    setName,
+    email,
+    setEmail,
+    age,
+    setAge,
+    usernameTooLong,
+    canNextFromId,
+    canNextFromPw,
+    canSubmit,
+  } = useSignup();
 
   return (
     <div className={styles.page}>
@@ -27,7 +34,7 @@ function SignUpPage() {
         <button
           type="button"
           className={styles.backButton}
-          onClick={handleGoLogin}
+          onClick={() => (step === 1 ? navigate("/login") : setStep((prev) => (prev - 1) as 1 | 2 | 3))}
           aria-label="뒤로"
         >
           ←
@@ -35,31 +42,55 @@ function SignUpPage() {
 
         <h1 className={styles.title}>회원가입</h1>
 
-        <div className={styles.field}>
-          <div className={styles.label}>아이디</div>
-          <Input
-            type="text"
-            placeholder="아이디를 입력해 주세요"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+        {step === 1 && (
+          <SignUpPageId
+            username={username}
+            onChange={setUsername}
+            tooLong={usernameTooLong}
+            onNext={() => setStep(2)}
+            disabled={!canNextFromId}
           />
-        </div>
+        )}
 
-        <div className={styles.actions}>
-          <Button type="button" fullWidth disabled={isNextDisabled} onClick={handleNext}>
-            다음
-          </Button>
-        </div>
+        {step === 2 && (
+          <SignUpPagePassword
+            password={password}
+            confirm={confirm}
+            onChangePassword={setPassword}
+            onChangeConfirm={setConfirm}
+            onNext={() => setStep(3)}
+            disabled={!canNextFromPw}
+          />
+        )}
+
+        {step === 3 && (
+          <SignUpPageProfile
+            name={name}
+            email={email}
+            age={age}
+            onChangeName={setName}
+            onChangeEmail={setEmail}
+            onChangeAge={setAge}
+            onSubmit={() => {
+              if (!canSubmit) return;
+              alert("회원가입 성공! 로그인 페이지로 이동합니다.");
+              navigate("/login");
+            }}
+            disabled={!canSubmit}
+          />
+        )}
 
         <p className={styles.footerText}>
-          이미 계정이 있나요?
-          <Button type="button" variant="link" onClick={handleGoLogin}>
+          이미 계정이 있나요? {" "}
+          <button
+            type="button"
+            onClick={() => navigate("/login")}
+            style={{ border: "none", background: "none", color: "#65C9B0", textDecoration: "underline", cursor: "pointer" }}
+          >
             로그인으로 돌아가기
-          </Button>
+          </button>
         </p>
       </div>
     </div>
   );
 }
-
-export default SignUpPage;

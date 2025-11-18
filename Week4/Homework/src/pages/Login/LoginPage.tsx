@@ -26,7 +26,6 @@ export default function LoginPage() {
             }
             setError("");
             // TODO: ky 로그인 API 연동
-
             alert(`로그인 시도: ${username}`);
           }}
         >
@@ -56,7 +55,7 @@ export default function LoginPage() {
             <Button type="submit" fullWidth disabled={isLoginDisabled}>
               로그인
             </Button>
-            <Button type="button" variant="link" onClick={() => navigate("/signup/id")}>
+            <Button type="button" variant="link" onClick={() => navigate("/signup")}>
               회원가입
             </Button>
           </div>
