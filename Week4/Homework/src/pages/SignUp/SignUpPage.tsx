@@ -1,12 +1,17 @@
-﻿import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as styles from "./signUpPage.css.ts";
 import SignUpPageId from "./SignUpPageId";
 import SignUpPagePassword from "./SignUpPagePassword";
 import SignUpPageProfile from "./SignUpPageProfile";
 import { useSignup } from "@/hooks/useSignup";
+import { signUp } from "@/api/user.ts";
+import { vars } from "@/styles/theme.css.ts";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
+  const [submitting, setSubmitting] = useState(false);
+
   const {
     step,
     setStep,
@@ -34,7 +39,11 @@ export default function SignUpPage() {
         <button
           type="button"
           className={styles.backButton}
-          onClick={() => (step === 1 ? navigate("/login") : setStep((prev) => (prev - 1) as 1 | 2 | 3))}
+          onClick={() =>
+            step === 1
+              ? navigate("/login")
+              : setStep((prev) => (prev - 1) as 1 | 2 | 3)
+          }
           aria-label="뒤로"
         >
           ←
@@ -71,23 +80,55 @@ export default function SignUpPage() {
             onChangeName={setName}
             onChangeEmail={setEmail}
             onChangeAge={setAge}
-            onSubmit={() => {
-              if (!canSubmit) return;
-              alert("회원가입 성공! 로그인 페이지로 이동합니다.");
-              navigate("/login");
+            onSubmit={async () => {
+              if (!canSubmit || submitting) return;
+
+              try {
+                setSubmitting(true);
+
+                await signUp({
+                  username,
+                  password,
+                  name,
+                  email,
+                  age: Number(age),
+                });
+
+                // 회원가입 정보 로컬스토리지에 저장
+                localStorage.setItem("userName", username);
+                localStorage.setItem("email", email);
+                localStorage.setItem("age", age);
+
+                alert("회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.");
+                navigate("/login");
+              } catch (error) {
+                const message =
+                  error instanceof Error
+                    ? error.message
+                    : "회원가입에 실패했습니다. 다시 시도해 주세요.";
+                alert(message);
+              } finally {
+                setSubmitting(false);
+              }
             }}
-            disabled={!canSubmit}
+            disabled={!canSubmit || submitting}
           />
         )}
 
         <p className={styles.footerText}>
-          이미 계정이 있나요? {" "}
+          이미 회원이신가요?{" "}
           <button
             type="button"
             onClick={() => navigate("/login")}
-            style={{ border: "none", background: "none", color: "#65C9B0", textDecoration: "underline", cursor: "pointer" }}
+            style={{
+              border: "none",
+              background: "none",
+              color: vars.color.primaryHover,
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
           >
-            로그인으로 돌아가기
+            로그인하러 가기
           </button>
         </p>
       </div>
