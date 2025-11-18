@@ -96,6 +96,7 @@ export default function SignUpPage() {
 
                 // 회원가입 정보 로컬스토리지에 저장
                 localStorage.setItem("userName", username);
+                localStorage.setItem("name", name);
                 localStorage.setItem("email", email);
                 localStorage.setItem("age", age);
 
@@ -135,3 +136,4 @@ export default function SignUpPage() {
     </div>
   );
 }
+

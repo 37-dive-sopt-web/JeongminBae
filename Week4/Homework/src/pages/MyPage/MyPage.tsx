@@ -1,13 +1,14 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import Header from "@/components/layout/Header";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import WithdrawModal from "@/components/withdraw/WithdrawModal";
+import { updateUser } from "@/api/user.ts";
 import * as styles from "./myPage.css.ts";
 
 export default function MyPage() {
   const [displayName, setDisplayName] = useState(
-    localStorage.getItem("userName") ?? "게스트"
+    localStorage.getItem("userName") ?? "게스트",
   );
 
   const [name, setName] = useState(localStorage.getItem("userName") ?? "");
@@ -16,21 +17,46 @@ export default function MyPage() {
   const [saving, setSaving] = useState(false);
   const [showWithdraw, setShowWithdraw] = useState(false);
 
-  const userId = localStorage.getItem("userName") ?? "-";
-  const canSave = name.trim() !== "" && email.includes("@") && age.trim() !== "";
+  const userIdForDisplay = localStorage.getItem("userName") ?? "-";
+  const canSave =
+    name.trim() !== "" && email.includes("@") && age.trim() !== "";
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!canSave) {
-      alert("모든 항목을 올바르게 입력해 주세요.");
+      alert("모든 필드를 올바르게 입력해 주세요.");
       return;
     }
-    setSaving(true);
-    localStorage.setItem("userName", name);
-    localStorage.setItem("email", email);
-    localStorage.setItem("age", age);
-    setDisplayName(name);
-    setSaving(false);
-    alert("저장되었습니다.");
+
+    const idStr = localStorage.getItem("userId");
+    if (!idStr) {
+      alert("로그인 정보가 없습니다. 다시 로그인해 주세요.");
+      return;
+    }
+
+    try {
+      setSaving(true);
+
+      await updateUser(Number(idStr), {
+        name,
+        email,
+        age: Number(age),
+      });
+
+      localStorage.setItem("userName", name);
+      localStorage.setItem("email", email);
+      localStorage.setItem("age", age);
+      setDisplayName(name);
+
+      alert("저장되었습니다.");
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "정보 저장에 실패했습니다. 다시 시도해 주세요.";
+      alert(message);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -47,7 +73,7 @@ export default function MyPage() {
             <div className={styles.form}>
               <div className={styles.rowSplit}>
                 <div className={styles.label}>아이디</div>
-                <div className={styles.valueStrong}>{userId}</div>
+                <div className={styles.valueStrong}>{userIdForDisplay}</div>
               </div>
 
               <div className={styles.row}>
@@ -102,3 +128,4 @@ export default function MyPage() {
     </div>
   );
 }
+

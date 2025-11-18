@@ -20,6 +20,12 @@ export type SignUpPayload = {
 export type LoginPayload = { username: string; password: string };
 export type LoginResult = { userId: number; message: string };
 
+export type UpdateUserPayload = {
+  name?: string;
+  email?: string;
+  age?: number;
+};
+
 function unwrap<T>(res: ApiResponse<T>, defaultMessage: string): T {
   if (!res.success || !res.data) {
     throw new Error(res.message || defaultMessage);
@@ -41,3 +47,11 @@ export async function getUser(id: number): Promise<Member> {
   const res = await api.get(`api/v1/users/${id}`).json<ApiResponse<Member>>();
   return unwrap(res, "회원 정보를 불러오지 못했습니다.");
 }
+
+export async function updateUser(id: number, payload: UpdateUserPayload): Promise<Member> {
+  const res = await api
+    .patch(`api/v1/users/${id}`, { json: payload })
+    .json<ApiResponse<Member>>();
+  return unwrap(res, "회원 정보를 수정하지 못했습니다.");
+}
+
