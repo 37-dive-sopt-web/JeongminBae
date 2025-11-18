@@ -8,7 +8,6 @@ export const main = style({
   minHeight: "calc(100vh - 80px)",
 });
 
-// 제목 + 카드 전체를 가운데 정렬하는 컨테이너
 export const container = style({
   maxWidth: "520px",
   margin: "0 auto",
@@ -69,3 +68,4 @@ export const valueStrong = style({
   color: vars.color.text,
   textAlign: "right",
 });
+
